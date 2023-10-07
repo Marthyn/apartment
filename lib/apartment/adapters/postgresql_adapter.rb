@@ -229,7 +229,7 @@ module Apartment
       # Convenience method for current database name
       #
       def dbname
-        Apartment.connection_config[:database]
+        Apartment.connection_db_config.configuration_hash[:database]
       end
     end
   end

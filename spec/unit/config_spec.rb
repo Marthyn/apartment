@@ -9,7 +9,7 @@ describe Apartment do
 
     def tenant_names_from_array(names)
       names.each_with_object({}) do |tenant, hash|
-        hash[tenant] = Apartment.connection_config
+        hash[tenant] = Apartment.connection_db_config
       end.with_indifferent_access
     end
 

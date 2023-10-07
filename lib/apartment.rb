@@ -16,7 +16,7 @@ module Apartment
     attr_accessor(*ACCESSOR_METHODS)
     attr_writer(*WRITER_METHODS)
 
-    def_delegators :connection_class, :connection, :connection_config, :establish_connection
+    def_delegators :connection_class, :connection, :connection_db_config, :establish_connection
 
     # configure apartment with available options
     def configure
@@ -32,7 +32,7 @@ module Apartment
     end
 
     def db_config_for(tenant)
-      (tenants_with_config[tenant] || connection_config).with_indifferent_access
+      (tenants_with_config[tenant] || connection_db_config).with_indifferent_access
     end
 
     # Whether or not db:migrate should also migrate tenants
@@ -92,7 +92,7 @@ module Apartment
       values = @tenant_names.respond_to?(:call) ? @tenant_names.call : @tenant_names
       unless values.is_a? Hash
         values = values.each_with_object({}) do |tenant, hash|
-          hash[tenant] = connection_config
+          hash[tenant] = connection_db_config.configuration_hash
         end
       end
       values.with_indifferent_access
